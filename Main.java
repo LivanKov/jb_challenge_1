@@ -4,10 +4,16 @@ public class Main {
 
 public static PhpType inferTypeFromDoc(PhpVariable variable) {
     PhpDocBlock docBlock = variable.getDocBlock();
-    if (docBlock == null) return TypeFactory.createType("mixed");
+    if (docBlock == null) {
+        System.out.println("No doc block found for variable: " + variable.getName());
+        return TypeFactory.createType("mixed");
+    }
 
     List<DocTag> varTags = docBlock.getTagsByName("var");
-    if (varTags.isEmpty()) return TypeFactory.createType("mixed");
+    if (varTags.isEmpty()) { 
+        System.out.println("No @var tags found for variable: " + variable.getName());
+        return TypeFactory.createType("mixed");
+    }
 
     String variableName = variable.getName();
     String resolvedTypeString = null;
